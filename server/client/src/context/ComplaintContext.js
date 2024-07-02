@@ -11,7 +11,7 @@ export const ComplaintContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchComplaint = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/complaint");
+        const response = await fetch("http://localhost:4444/api/complaint");
         const json = await response.json();
         setComplaintState(json);
       } catch (error) {

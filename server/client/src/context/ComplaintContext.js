@@ -11,7 +11,7 @@ export const ComplaintContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchComplaint = async () => {
       try {
-        const response = await fetch("http://localhost:4444/api/complaint");
+        const response = await fetch("http://localhost:5555/api/complaint");
         const json = await response.json();
         setComplaintState(json);
       } catch (error) {
@@ -32,7 +32,7 @@ export const ComplaintContextProvider = ({ children }) => {
     };
 
     try {
-      const response = await fetch("http://localhost:4444/api/complaint", {
+      const response = await fetch("http://localhost:5555/api/complaint", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export const ComplaintContextProvider = ({ children }) => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:4444/api/complaint/${id}`,
+        `http://localhost:5555/api/complaint/${id}`,
         {
           method: "DELETE",
           headers: {

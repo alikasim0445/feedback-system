@@ -1,6 +1,12 @@
-import { useContext } from "react";
 import { ComplaintContext } from "../context/ComplaintContext";
+import { useContext } from "react";
 
 export const useComplaintContext = () => {
-  return useContext(ComplaintContext);
+  const context = useContext(ComplaintContext);
+
+  if (!context) {
+    throw Error("ComplaintContext error");
+  }
+
+  return context;
 };

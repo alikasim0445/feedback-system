@@ -1,93 +1,54 @@
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 
 export const ComplaintContext = createContext({});
 
+export const complaintReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_COMPLAINTS":
+      return {
+        ...state,
+        complaints: action.payload,
+      };
+    case "CREATE_COMPLAINT":
+      return {
+        ...state,
+        complaints: [action.payload, ...state.complaints],
+      };
+    case "DELETE_COMPLAINT":
+      return {
+        ...state,
+        complaints: state.complaints.filter(
+          (complaint) => complaint._id !== action.payload._id
+        ),
+      };
+    default:
+      return state;
+  }
+};
+
 export const ComplaintContextProvider = ({ children }) => {
-  const [complaintState, setComplaintState] = useState([]);
-  const [error, setError] = useState(false);
-  const [phone, setPhone] = useState(null);
-  const [complaint, setComplaint] = useState("");
+  const [state, dispatch] = useReducer(complaintReducer, {
+    complaints: [], // Initialize complaints as an empty array
+  });
 
   useEffect(() => {
-    const fetchComplaint = async () => {
+    const fetchComplaints = async () => {
       try {
         const response = await fetch("http://localhost:5555/api/complaint");
         const json = await response.json();
-        setComplaintState(json);
+        if (response.ok) {
+          dispatch({ type: "SET_COMPLAINTS", payload: json });
+        }
       } catch (error) {
-        setError(true);
         console.log(error);
       }
     };
 
-    fetchComplaint();
+    fetchComplaints();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const newComplaint = {
-      phone,
-      complaint,
-    };
-
-    try {
-      const response = await fetch("http://localhost:5555/api/complaint", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newComplaint),
-      });
-      const savedComplaint = await response.json();
-      setComplaintState((prevComplaintState) => [
-        savedComplaint,
-        ...prevComplaintState,
-      ]);
-      setPhone(null);
-      setComplaint("");
-      setError(false);
-    } catch (error) {
-      setError(true);
-      console.log(error);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5555/api/complaint/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      setComplaintState(complaintState.filter((c) => c._id !== id));
-      // toast.success("Post deleted successfully!");
-      console.log("Post deleted successfully!");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
-    <ComplaintContext.Provider
-      value={{
-        complaintState,
-        error,
-        phone,
-        setPhone,
-        complaint,
-        setComplaint,
-        handleSubmit,
-        handleDelete,
-      }}
-    >
+    <ComplaintContext.Provider value={{ ...state, dispatch }}>
       {children}
     </ComplaintContext.Provider>
   );

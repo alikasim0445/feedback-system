@@ -187,7 +187,7 @@ const Home = () => {
           )}
 
           {selectedView === "Graph" && (
-            <div className="w-full lg:flex-1 mt-5 lg:mt-0 lg:ml-5">
+            <div className="">
               <RatingsGraph workouts={filteredWorkouts} />
             </div>
           )}

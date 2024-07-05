@@ -273,34 +273,32 @@ const WorkoutForm = () => {
         <h3 className="text-center text-lg font-semibold font-sans">
           Comment Here
         </h3>
-
-        <div className="flex flex-row gap-1 relative sm:flex-col md:flex-col lg:flex-row">
-          <FaSearch className="absolute left-3 top-5  text-gray-400 border-collapse ml-1 pt-1 text-2xl" />
-          <input
-            id="search"
-            type="text"
-            onChange={handleSearch}
-            value={searchTerm}
-            placeholder="Search for desk, office, or sector"
-            className="form-control pl-10 w-64 rounded-[300px]"
-          />
-
-          {suggestions.length > 0 && (
-            <select
-              className="border border-gray-300 bg-white rounded-md  w-52 h-10 mt-3 ml-5 "
-              onChange={(event) => handleSuggestionClick(event.target.value)}
-            >
-              <option value="" className=""></option>
-              {suggestions.map((suggestion, index) => (
-                <option key={index} value={suggestion} className="p-3">
-                  {suggestion}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
-
         <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 relative sm:flex-col md:flex-col lg:flex-col">
+            <FaSearch className="absolute left-3 top-5  text-gray-400 border-collapse ml-1 pt-1 text-2xl lg:w-fit" />
+            <input
+              id="search"
+              type="text"
+              onChange={handleSearch}
+              value={searchTerm}
+              placeholder="Search for desk, office, or sector"
+              className="form-control pl-10  sm:w-fit md:w-fit lg:w-fit rounded-[300px]"
+            />
+
+            {suggestions.length > 0 && (
+              <select
+                className="border border-gray-300 bg-white rounded-md  h-10 mt-3  "
+                onChange={(event) => handleSuggestionClick(event.target.value)}
+              >
+                <option value="" className=""></option>
+                {suggestions.map((suggestion, index) => (
+                  <option key={index} value={suggestion} className="p-3">
+                    {suggestion}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
           <label htmlFor="sector">Sector:</label>
           <select
             id="sector"
@@ -357,11 +355,11 @@ const WorkoutForm = () => {
           </select>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="">
           <label>Rate:</label>
-          <div className="flex flex-row gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {rating.map((rateOption, index) => (
-              <div key={index} className="flex items-center gap-2 mx-auto">
+              <div key={index} className="flex items-center gap-3 mx-auto">
                 <input
                   type="radio"
                   id={rateOption.toLowerCase()}
@@ -371,7 +369,7 @@ const WorkoutForm = () => {
                   checked={rate === rateOption}
                   className="form-radio"
                 />
-                <label htmlFor={rateOption.toLowerCase()} className="">
+                <label htmlFor={rateOption.toLowerCase()} className="mr-3">
                   {rateOption}
                 </label>
               </div>
@@ -390,7 +388,7 @@ const WorkoutForm = () => {
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
             placeholder="+251"
-            className="form-control w-72"
+            className="form-control sm:w-fit md:w-fit lg:w-fit"
           />
         </div>
 

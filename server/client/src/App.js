@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import WorkoutForm from "./components/WorkoutForm";
 import ComplaintForm from "./components/ComplaintForm";
 import Complaint from "./components/Complaint";
+import ComplaintDetail from "./components/ComplaintDetail";
 
 function App() {
   const { user } = useAuthContext();
@@ -19,12 +20,12 @@ function App() {
         <Navbar />
         <div className="pages">
           <Routes>
-            <Route
-              path="/"
-              element={user ? <WorkoutForm /> : <Navigate to="/login" />}
-            />
+            <Route path="/" element={<WorkoutForm />} />
             <Route path="/complaint" element={<ComplaintForm />} />
-            <Route path="/complaintdetail" element={<Complaint />} />
+            <Route
+              path="/complaintdetail"
+              element={user ? <Complaint /> : <Navigate to="/login" />}
+            />
             <Route
               path="/login"
               element={!user ? <Login /> : <Navigate to="/" />}
@@ -33,7 +34,10 @@ function App() {
               path="/signup"
               element={!user ? <Signup /> : <Navigate to="/" />}
             />
-            <Route path="/detail" element={<Home />} />
+            <Route
+              path="/feedbackdetail"
+              element={user ? <Home /> : <Navigate to="/login" />}
+            />
           </Routes>
         </div>
       </BrowserRouter>

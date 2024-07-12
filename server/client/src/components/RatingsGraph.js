@@ -61,9 +61,21 @@ const RatingsGraph = ({ workouts }) => {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
+      x: {
+        ticks: {
+          color: "white", // X-axis labels color
+          font: {
+            weight: "bold", // Bold font for X-axis labels
+          },
+        },
+      },
       y: {
         beginAtZero: true,
         ticks: {
+          color: "white", // Y-axis labels color
+          font: {
+            weight: "bold", // Bold font for Y-axis labels
+          },
           stepSize: 1,
         },
       },
@@ -72,17 +84,31 @@ const RatingsGraph = ({ workouts }) => {
       legend: {
         display: true,
         position: "top",
+        labels: {
+          color: "white", // Legend labels color
+          font: {
+            weight: "bold", // Bold font for legend labels
+          },
+        },
       },
       title: {
         display: true,
-        text: "Ratings Graph",
+        color: "white", // Title color if you have a title
+        font: {
+          weight: "bold", // Bold font for title
+        },
       },
     },
   };
 
   return (
-    <div className="w-3/6 mx-auto my-5 p-10" style={{ height: "400px" }}>
-      <h2 className="text-center text-lg font-semibold mb-5">Ratings Graph</h2>
+    <div
+      className="w-72 sm:w-80 md:w-90 lg:w-90 my-5 p-10"
+      style={{ height: "400px" }}
+    >
+      <h2 className="text-center text-lg font-semibold mb-5 text-amber-400">
+        Ratings Graph
+      </h2>
       <Bar data={getChartData()} options={options} />
     </div>
   );

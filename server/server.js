@@ -15,12 +15,7 @@ const app = express();
 app.use(express.json());
 
 // Corrected CORS configuration
-app.use(
-  cors({
-    origin: ["https://feedback-system-2.onrender.com", "http://localhost:3001"], // Allow multiple origins
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);

@@ -13,8 +13,8 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-slate-900 text-gray-100 shadow-md">
-      <div className="container mx-auto flex justify-between items-center p-4">
+    <header className="bg-slate-900 text-gray-100 shadow-md w-full">
+      <div className="container mx-auto flex justify-between items-center p-4 w-full">
         <Link to="/" className="text-2xl font-bold">
           MinT
         </Link>
@@ -40,7 +40,7 @@ const Navbar = () => {
         <nav
           className={`${
             isOpen ? "block" : "hidden"
-          } lg:flex lg:items-center lg:space-x-4`}
+          } lg:flex lg:items-center lg:space-x-4 w-full lg:w-auto`}
         >
           <Link
             to="/"
@@ -49,7 +49,7 @@ const Navbar = () => {
             Feedback
           </Link>
           <Link
-            to="/detail"
+            to="/feedbackdetail"
             className="block lg:inline-block hover:bg-green-400 p-1 rounded font-bold transition ease-in-out"
           >
             Feedback Detail

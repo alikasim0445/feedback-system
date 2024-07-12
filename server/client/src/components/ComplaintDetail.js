@@ -37,7 +37,7 @@ const ComplaintDetail = ({ complaint }) => {
   return (
     <div
       key={complaint._id}
-      className="bg-slate-600 border-spacing-3 flex flex-col justify-between text-white mx-auto p-6 rounded-md m-4 relative lg:w-full pb-10"
+      className="bg-slate-600 border-spacing-3 flex flex-col justify-between text-white mx-auto p-6 rounded-md m-4 relative lg:w-full pb-10 sm:h-auto"
     >
       <div className="mb-10">
         <div className="flex justify-between items-center mb-2">
@@ -69,7 +69,7 @@ const ComplaintDetail = ({ complaint }) => {
       </span>
       <button
         onClick={() => handleDelete(complaint._id)}
-        className="bg-red-600 rounded-full w-20 p-2 mt-5 absolute bottom-6 shadow-md "
+        className="bg-red-600 rounded-full w-20 p-2 mt-5 absolute bottom-6 shadow-md"
       >
         Delete
       </button>

@@ -1,22 +1,39 @@
 import React, { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
-import { useComplaintContext } from "../hooks/useComplaintContext";
+import { useComplaintContext } from "../hooks/useComplaint";
 
 import { useNavigate } from "react-router-dom";
+import { json } from "express";
 
 const ComplaintDetail = ({ complaint }) => {
   const [expandedPost, setExpandedPost] = useState(null);
-  const { handleDelete } = useComplaintContext();
+  const { dispatch } = useComplaintContext();
   const navigate = useNavigate();
 
   const toggleDescription = (id) => {
     setExpandedPost((prevId) => (prevId === id ? null : id));
   };
 
-  const handleDeletePost = () => {
-    handleDelete(complaint._id);
-    navigate("/complaintdetail");
-    // toast.success("Post deleted successfully!");
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5555/api/complaint/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      dispatch({ type: "DELETE_COMPLAINT", playload: json });
+      // toast.success("Post deleted successfully!");
+      console.log("Post deleted successfully!");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -53,7 +70,7 @@ const ComplaintDetail = ({ complaint }) => {
         })}
       </span>
       <button
-        onClick={handleDeletePost}
+        onClick={handleDelete}
         className="bg-red-600 rounded-full w-20 p-2 mt-5 absolute bottom-6 shadow-md "
       >
         Delete

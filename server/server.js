@@ -13,15 +13,15 @@ const app = express();
 // middleware
 app.use(express.json());
 
-// Corrected CORS configuration for both local and production environments
+// CORS configuration
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://feedback-system-2.onrender.com"],
-    credentials: true, // If using cookies, session, etc.
+    credentials: true, // Allow credentials if needed
   })
 );
 
-// Logger middleware to log requests
+// Logger middleware
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);
   next();
@@ -33,27 +33,22 @@ app.use("/api/user", userRoutes);
 app.use("/api/complaint", complaintRouter);
 
 // Serve static files from the React frontend app (in production)
-
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/client/build")));
+  app.use(express.static(path.join(__dirname, "../client/build")));
+
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "/client/build/index.html"));
-  });
-} else {
-  // If in development, serve a different message (optional)
-  app.get("/", (req, res) => {
-    res.send("API running in development mode");
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
 }
 
-// connect to db
+// Connect to DB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    // listen for requests
+    // Start the server
     app.listen(process.env.PORT || 5555, () => {
       console.log(
-        "connected to db & listening on port",
+        "Connected to DB & listening on port",
         process.env.PORT || 5555
       );
     });

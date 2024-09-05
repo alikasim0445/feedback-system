@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "feedback-system": "file:.."
+  }
+}

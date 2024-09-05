@@ -65,6 +65,10 @@ const Home = () => {
     setSelectedView(e.target.value);
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="container mx-auto px-4">
       <div className="mt-5">
@@ -80,7 +84,7 @@ const Home = () => {
             </select>
           </div>
           {selectedView === "Graph" ? (
-            <div className="flex flex-col bg-blue-400 p-3 rounded-md w-full lg:w-1/5 mt-5 lg:mt-0 lg:ml-10">
+            <div className=" flex flex-col bg-blue-400 p-3 rounded-md w-full lg:w-1/5 lg:mt-0 lg:ml-10">
               <div className="mb-4">
                 <label htmlFor="sector-select" className="mr-2">
                   Filter by Sector:
@@ -122,7 +126,7 @@ const Home = () => {
             </div>
           ) : (
             <div className="w-full">
-              <div className="flex flex-col bg-blue-400 p-3 rounded-md w-full lg:w-[250px] mt-5 lg:mt-3 mb-5 lg:mb-5 lg:ml-auto">
+              <div className="flex flex-col bg-blue-400 p-3 rounded-md w-full lg:w-[250px] mt-5 lg:mt-3 mb-5 lg:mb-5 lg:ml-auto mx-auto">
                 <div className="mb-4">
                   <label htmlFor="sector-select" className="mr-2">
                     Filter by Sector:
@@ -186,12 +190,20 @@ const Home = () => {
             </div>
           )}
 
-          {selectedView === "Graph" && (
-            <div className="w-full lg:flex-1 mt-5 lg:mt-0 lg:ml-5">
-              <RatingsGraph workouts={filteredWorkouts} />
-            </div>
-          )}
+          <div className="bg-black mx-auto mt-3 rounded-xl">
+            {selectedView === "Graph" && (
+              <div className="">
+                <RatingsGraph workouts={filteredWorkouts} />
+              </div>
+            )}
+          </div>
         </div>
+        <button
+          onClick={handlePrint}
+          className="bg-green-600 text-white p-2 rounded mt-5 print:hidden"
+        >
+          Print Page
+        </button>
       </div>
     </div>
   );

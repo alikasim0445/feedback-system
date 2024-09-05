@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 const workoutSchema = new Schema(
   {
     sector: { type: String, required: true },
-    office: { type: String, required: true },
-    desk: { type: String, required: true },
+    office: { type: String, required: false },
+    desk: { type: String, required: false },
     rate: { type: String, required: true },
     phone: { type: Number, required: false, default: null },
     comment: { type: String, required: false, default: null },

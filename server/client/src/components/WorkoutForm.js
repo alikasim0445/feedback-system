@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
+import { FaSearch } from "react-icons/fa";
 
 // import { useAuthContext } from '../hooks/useAuthContext'
 
@@ -15,6 +16,8 @@ const WorkoutForm = () => {
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
   const [showError, setShowError] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +27,7 @@ const WorkoutForm = () => {
     //   return
     // }
 
-    if (sector === "" || office === "" || desk === "" || rate === "") {
+    if (sector === "" || rate === "") {
       setShowError(true);
       return;
     }
@@ -189,17 +192,113 @@ const WorkoutForm = () => {
     ],
   };
 
+  const handleSearch = (e) => {
+    const searchTerm = e.target.value;
+    setSearchTerm(searchTerm);
+
+    let newSuggestions = [];
+
+    // Search desks
+    for (let office in deskHelpOptionsByOffice) {
+      const desks = deskHelpOptionsByOffice[office].filter((desk) =>
+        desk.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      if (desks.length > 0) {
+        newSuggestions = [...newSuggestions, ...desks];
+      }
+    }
+
+    // Search offices
+    for (let sector in deskOptionsByOffice) {
+      const offices = deskOptionsByOffice[sector].filter((office) =>
+        office.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      if (offices.length > 0) {
+        newSuggestions = [...newSuggestions, ...offices];
+      }
+    }
+
+    // Search sectors
+    const sectors = OfficeLabels.filter((label) =>
+      label.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    if (sectors.length > 0) {
+      newSuggestions = [...newSuggestions, ...sectors];
+    }
+
+    setSuggestions(newSuggestions);
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchTerm(suggestion);
+    setSuggestions([]);
+
+    // Check if the suggestion matches any desk
+    for (let office in deskHelpOptionsByOffice) {
+      if (deskHelpOptionsByOffice[office].includes(suggestion)) {
+        const sector = Object.keys(deskOptionsByOffice).find((key) =>
+          deskOptionsByOffice[key].includes(office)
+        );
+        setSector(sector);
+        setOffice(office);
+        setDesk(suggestion);
+        return;
+      }
+    }
+
+    // Check if the suggestion matches any office
+    for (let sector in deskOptionsByOffice) {
+      if (deskOptionsByOffice[sector].includes(suggestion)) {
+        setSector(sector);
+        setOffice(suggestion);
+        setDesk("");
+        return;
+      }
+    }
+
+    // Check if the suggestion matches any sector
+    if (OfficeLabels.includes(suggestion)) {
+      setSector(suggestion);
+      setOffice("");
+      setDesk("");
+    }
+  };
+
   return (
     <form
-      className="bg-slate-300 max-w-xl mx-auto rounded-lg p-10 shadow-2xl "
+      className="bg-slate-300 max-w-xl mx-auto rounded-lg p-10 shadow-2xl"
       onSubmit={handleSubmit}
     >
-      <div className="flex flex-col space-y-1 ">
+      <div className="flex flex-col space-y-1">
         <h3 className="text-center text-lg font-semibold font-sans">
           Comment Here
         </h3>
-
         <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 relative sm:flex-col md:flex-col lg:flex-col">
+            <FaSearch className="absolute left-3 top-5  text-gray-400 border-collapse ml-1 pt-1 text-2xl lg:w-fit" />
+            <input
+              id="search"
+              type="text"
+              onChange={handleSearch}
+              value={searchTerm}
+              placeholder="Search for desk, office, or sector"
+              className="form-control pl-10  sm:w-fit md:w-fit lg:w-fit rounded-[300px]"
+            />
+
+            {suggestions.length > 0 && (
+              <select
+                className="border border-gray-300 bg-white rounded-md  h-10 mt-3  "
+                onChange={(event) => handleSuggestionClick(event.target.value)}
+              >
+                <option value="" className=""></option>
+                {suggestions.map((suggestion, index) => (
+                  <option key={index} value={suggestion} className="p-3">
+                    {suggestion}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
           <label htmlFor="sector">Sector:</label>
           <select
             id="sector"
@@ -216,11 +315,6 @@ const WorkoutForm = () => {
               </option>
             ))}
           </select>
-          {sector === "" && showError && (
-            <span className="text-red-600 text-sm">
-              Please select a sector!
-            </span>
-          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -240,11 +334,6 @@ const WorkoutForm = () => {
               </option>
             ))}
           </select>
-          {office === "" && showError && (
-            <span className="text-red-600 text-sm">
-              Please select an office!
-            </span>
-          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -264,16 +353,13 @@ const WorkoutForm = () => {
               </option>
             ))}
           </select>
-          {desk === "" && showError && (
-            <span className="text-red-600 text-sm">Please select a desk!</span>
-          )}
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="">
           <label>Rate:</label>
-          <div className="flex flex-row gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {rating.map((rateOption, index) => (
-              <div key={index} className="flex items-center gap-2 mx-auto ">
+              <div key={index} className="flex items-center gap-3 mx-auto">
                 <input
                   type="radio"
                   id={rateOption.toLowerCase()}
@@ -283,7 +369,7 @@ const WorkoutForm = () => {
                   checked={rate === rateOption}
                   className="form-radio"
                 />
-                <label htmlFor={rateOption.toLowerCase()} className="">
+                <label htmlFor={rateOption.toLowerCase()} className="mr-3">
                   {rateOption}
                 </label>
               </div>
@@ -302,7 +388,7 @@ const WorkoutForm = () => {
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
             placeholder="+251"
-            className="form-control w-72"
+            className="form-control sm:w-fit md:w-fit lg:w-fit"
           />
         </div>
 

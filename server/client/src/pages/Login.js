@@ -13,23 +13,26 @@ const Login = () => {
   };
 
   return (
-    <form className="login" onSubmit={handleSubmit}>
-      <h3>Log In</h3>
+    <form className="login flex flex-col" onSubmit={handleSubmit}>
+      <h3 className="text-center font-bold">Log In</h3>
 
-      <label>Email address:</label>
       <input
         type="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
+        placeholder="email"
       />
-      <label>Password:</label>
+
       <input
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
+        placeholder="password"
       />
 
-      <button disabled={isLoading}>Log in</button>
+      <button disabled={isLoading} className="">
+        Log in
+      </button>
       {error && <div className="error">{error}</div>}
     </form>
   );

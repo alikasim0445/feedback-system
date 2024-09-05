@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { useComplaintContext } from "../hooks/useComplaint";
 import CompontDetail from "./ComplaintDetail";
+=======
+import { useComplaintContext } from "../hooks/useComplaintContext";
+import ComplaintDetail from "./ComplaintDetail";
+>>>>>>> dcbf0145538be99e4ce197c33d579f0fc2ed3fc6
 import { useEffect } from "react";
 
 const Complaint = () => {
@@ -19,12 +24,21 @@ const Complaint = () => {
     };
 
     fetchComplaint();
+<<<<<<< HEAD
   }, [dispatch]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 border-spacing-3 ">
       {complaints.map((complain) => (
         <CompontDetail key={complain._id} complaint={complain} />
+=======
+  }, []);
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 border-spacing-3 ">
+      {complaints.map((complaint) => (
+        <ComplaintDetail key={complaint._id} complaint={complaint} />
+>>>>>>> dcbf0145538be99e4ce197c33d579f0fc2ed3fc6
       ))}
     </div>
   );

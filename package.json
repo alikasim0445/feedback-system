@@ -32,7 +32,6 @@
     "cookie": "^0.6.0",
     "cookie-signature": "^1.0.6",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "cross-spawn": "^7.0.3",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
@@ -42,14 +41,15 @@
     "validator": "^13.12.0"
   },
   "scripts": {
-    "dev": "NODE_ENV=development nodemon server/server.js",
-    "start": "NODE_ENV=production node server/server.js",
+    "dev": "cross-env NODE_ENV=development nodemon server/server.js",
+    "start": "cross-env NODE_ENV=production node server/server.js",
     "build": "cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^3.1.4"
   }
 }

@@ -34,6 +34,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/complaint", complaintRouter);
 
 // Serve static files from the React frontend app (in production)
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
   app.get("*", (req, res) => {
@@ -48,10 +49,7 @@ if (process.env.NODE_ENV === "production") {
 
 // connect to db
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGO_URI)
   .then(() => {
     // listen for requests
     app.listen(process.env.PORT || 5555, () => {

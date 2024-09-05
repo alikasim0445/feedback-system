@@ -43,7 +43,7 @@
   "scripts": {
     "dev": " NODE_ENV=development nodemon server/server.js",
     "start": " NODE_ENV=production node server/server.js",
-    "build": "npm install && npm install --prefix server && npm install --prefix cient &&  npm run build --prefix my-vite-project"
+    "build": "npm install && npm install --prefix server && npm install --prefix client &&  npm run build --prefix client"
   },
   "keywords": [],
   "author": "",

@@ -15,7 +15,11 @@ const app = express();
 app.use(express.json());
 
 // Corrected CORS configuration
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://feedback-system-2.onrender.com"],
+  })
+);
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
